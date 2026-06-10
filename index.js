@@ -2,7 +2,8 @@ require('dotenv').config();
 const { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { Connection, Keypair, PublicKey, LAMPORTS_PER_SOL, SystemProgram, Transaction } = require('@solana/web3.js');
 
-
+const fs = require('fs');
+const path = require('path');
 
 const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
 const WALLET_FILE = path.join(__dirname, 'wallets.json');
@@ -52,7 +53,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
     try {
         console.log('Started refreshing application (/) commands.')
         await rest.put(
-            Routes.applicationCommand(process.env.CLIENT_ID),
+            Routes.applicationCommands(process.env.CLIENT_ID),
             { body: commands },
         );
         console.log('Successfully reloaded application (/) commands.');
@@ -69,9 +70,21 @@ client.on('interactionCreate', async interaction => {
 
     if(commandName === 'wallet') {
         await interaction.reply({
-            content: `Your deposit address: \`{userWallet.publicKey.toBase58()}\`\`n*Deposit funds to this address using Solana Devnet.*`,
+            content: `Your deposit address: \`${userWallet.publicKey.toBase58()}\`\n*Deposit funds to this address using Solana Devnet.*`,
             ephemeral: true
         })
+    }
+
+    if (commandName === 'balance') {
+        await interaction.deferReply({ ephemeral: true });
+        try {
+            const balanceInLamports = await connection.getBalance(userWallet.publicKey);
+            const balanceInSol = balanceInLamports / LAMPORTS_PER_SOL;
+            await interaction.editReply(`Your wallet balance is **${balanceInSol} SOL**`);
+        } catch (error) {
+            console.error(error);
+            await interaction.editReply('Failed to fetch balance. Try again later.');
+        }
     }
 
     if (commandName === 'tip') {
@@ -81,7 +94,7 @@ client.on('interactionCreate', async interaction => {
         const amountSol = interaction.options.getNumber('amount');
 
         if (recipientUser.id === user.id) {
-            return interaction.editReply("Amount must be greater than 0 SOL.")
+            return interaction.editReply("You can't tip yourself!")
         }
 
         try {
