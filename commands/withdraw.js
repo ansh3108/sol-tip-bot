@@ -7,7 +7,7 @@ function getUserKeypair(userId) {
     const wallets = JSON.parse(fs.readFileSync('./wallets.json', 'utf-8'));
     if(!wallets[userId]) return null;
 
-    return Keypair.fromSecretKey(Uint8Array.from(wallets[userId].secretKey));
+    return Keypair.fromSecretKey(Uint8Array.from(wallets[userId]));
 }
 
 module.exports = {

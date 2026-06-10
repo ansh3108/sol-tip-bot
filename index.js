@@ -45,6 +45,8 @@ const commands = [
         option.setName('user').setDescription('The user to tip').setRequired(true))
     .addNumberOption(option => 
         option.setName('amount').setDescription('Amount of SOL to tip').setRequired(true)),
+
+    require('./commands/withdraw.js').data
 ].map(command => command.toJSON());
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
@@ -66,6 +68,11 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
     const { commandName, user } = interaction;
+
+    if (commandName === 'withdraw') {
+        return require('./commands/withdraw.js').execute(interaction);
+    }
+
     const userWallet = getOrCreateWallet(user.id);
 
     if(commandName === 'wallet') {
