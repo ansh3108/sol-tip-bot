@@ -2,12 +2,15 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { PublicKey, Transaction, SystemProgram, Keypair, LAMPORTS_PER_SOL } = require('@solana/web3.js');
 const { connection, network } = require('../connection');
 const fs = require('fs');
+const { decrypt } = require('../encryption')
 
 function getUserKeypair(userId) {
     const wallets = JSON.parse(fs.readFileSync('./wallets.json', 'utf-8'));
     if(!wallets[userId]) return null;
 
-    return Keypair.fromSecretKey(Uint8Array.from(wallets[userId]));
+    const decryptedString = decrypt(wallets[userId]);
+    const secretKey = Uint8Array.from(JSON.parse(decryptedString));
+    return Keypair.fromSecretKey(secretKey);
 }
 
 module.exports = {

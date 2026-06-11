@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { Connection, Keypair, PublicKey, LAMPORTS_PER_SOL, SystemProgram, Transaction } = require('@solana/web3.js');
+const { encrypt, decrypt } = require('./encryption.js');
 
 const fs = require('fs');
 const path = require('path');
@@ -19,7 +20,9 @@ function loadWallets() {
 
 function saveWallet(userId, secretKeyArray) {
     const wallets = loadWallets();
-    wallets[userId] = secretKeyArray;
+
+    const stringifiedArray = JSON.stringify(secretKeyArray);
+    wallets[userId] = encrypt(stringifiedArray);
     fs.writeFileSync(WALLET_FILE, JSON.stringify(wallets, null, 2));
 }
 
@@ -27,7 +30,8 @@ function getOrCreateWallet(userId) {
     const wallets = loadWallets();
 
     if (wallets[userId]) {
-        const secretKey = Uint8Array.from(wallets[userId]);
+        const decryptedString = decrypt(wallets[userId]);
+        const secretKey = Uint8Array.from(JSON.parse(decryptedString));
         return Keypair.fromSecretKey(secretKey);
     } else {
         const newKeypair = Keypair.generate();
