@@ -67,11 +67,11 @@ client.on('interactionCreate', async interaction => {
 
     const { commandName, user } = interaction;
 
-    if (commandName === 'withdraw') {
-        return require('./commands/withdraw.js').execute(interaction);
-    }
-
     const userWallet = await getOrCreateWallet(user.id);
+
+    if (commandName === 'withdraw') {
+        return require('./commands/withdraw.js').execute(interaction, userWallet, connection);
+    }
 
     if(commandName === 'wallet') {
         await interaction.reply({
