@@ -10,7 +10,7 @@ datasource db {
 
 model User {
   id              String   @id @default(cuid())
-  dicordId        String   @unique
+  discordId       String   @unique
   encryptedWallet String
   createdAt       DateTime @default(now())
 }
