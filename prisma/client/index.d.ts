@@ -873,21 +873,21 @@ export namespace Prisma {
 
   export type UserMinAggregateOutputType = {
     id: string | null
-    dicordId: string | null
+    discordId: string | null
     encryptedWallet: string | null
     createdAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: string | null
-    dicordId: string | null
+    discordId: string | null
     encryptedWallet: string | null
     createdAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
-    dicordId: number
+    discordId: number
     encryptedWallet: number
     createdAt: number
     _all: number
@@ -896,21 +896,21 @@ export namespace Prisma {
 
   export type UserMinAggregateInputType = {
     id?: true
-    dicordId?: true
+    discordId?: true
     encryptedWallet?: true
     createdAt?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
-    dicordId?: true
+    discordId?: true
     encryptedWallet?: true
     createdAt?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
-    dicordId?: true
+    discordId?: true
     encryptedWallet?: true
     createdAt?: true
     _all?: true
@@ -990,7 +990,7 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: string
-    dicordId: string
+    discordId: string
     encryptedWallet: string
     createdAt: Date
     _count: UserCountAggregateOutputType | null
@@ -1014,40 +1014,40 @@ export namespace Prisma {
 
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    dicordId?: boolean
+    discordId?: boolean
     encryptedWallet?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    dicordId?: boolean
+    discordId?: boolean
     encryptedWallet?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    dicordId?: boolean
+    discordId?: boolean
     encryptedWallet?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
-    dicordId?: boolean
+    discordId?: boolean
     encryptedWallet?: boolean
     createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dicordId" | "encryptedWallet" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "discordId" | "encryptedWallet" | "createdAt", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      dicordId: string
+      discordId: string
       encryptedWallet: string
       createdAt: Date
     }, ExtArgs["result"]["user"]>
@@ -1474,7 +1474,7 @@ export namespace Prisma {
    */
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
-    readonly dicordId: FieldRef<"User", 'String'>
+    readonly discordId: FieldRef<"User", 'String'>
     readonly encryptedWallet: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
@@ -1854,7 +1854,7 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
-    dicordId: 'dicordId',
+    discordId: 'discordId',
     encryptedWallet: 'encryptedWallet',
     createdAt: 'createdAt'
   };
@@ -1904,31 +1904,31 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
-    dicordId?: StringFilter<"User"> | string
+    discordId?: StringFilter<"User"> | string
     encryptedWallet?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
-    dicordId?: SortOrder
+    discordId?: SortOrder
     encryptedWallet?: SortOrder
     createdAt?: SortOrder
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    dicordId?: string
+    discordId?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     encryptedWallet?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
-  }, "id" | "dicordId">
+  }, "id" | "discordId">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
-    dicordId?: SortOrder
+    discordId?: SortOrder
     encryptedWallet?: SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -1941,56 +1941,56 @@ export namespace Prisma {
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
-    dicordId?: StringWithAggregatesFilter<"User"> | string
+    discordId?: StringWithAggregatesFilter<"User"> | string
     encryptedWallet?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
   export type UserCreateInput = {
     id?: string
-    dicordId: string
+    discordId: string
     encryptedWallet: string
     createdAt?: Date | string
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
-    dicordId: string
+    discordId: string
     encryptedWallet: string
     createdAt?: Date | string
   }
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    dicordId?: StringFieldUpdateOperationsInput | string
+    discordId?: StringFieldUpdateOperationsInput | string
     encryptedWallet?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    dicordId?: StringFieldUpdateOperationsInput | string
+    discordId?: StringFieldUpdateOperationsInput | string
     encryptedWallet?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateManyInput = {
     id?: string
-    dicordId: string
+    discordId: string
     encryptedWallet: string
     createdAt?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    dicordId?: StringFieldUpdateOperationsInput | string
+    discordId?: StringFieldUpdateOperationsInput | string
     encryptedWallet?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    dicordId?: StringFieldUpdateOperationsInput | string
+    discordId?: StringFieldUpdateOperationsInput | string
     encryptedWallet?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2022,21 +2022,21 @@ export namespace Prisma {
 
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
-    dicordId?: SortOrder
+    discordId?: SortOrder
     encryptedWallet?: SortOrder
     createdAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
-    dicordId?: SortOrder
+    discordId?: SortOrder
     encryptedWallet?: SortOrder
     createdAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
-    dicordId?: SortOrder
+    discordId?: SortOrder
     encryptedWallet?: SortOrder
     createdAt?: SortOrder
   }
