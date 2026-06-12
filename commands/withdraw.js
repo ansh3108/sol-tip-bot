@@ -3,6 +3,7 @@ const { PublicKey, Transaction, SystemProgram, Keypair, LAMPORTS_PER_SOL } = req
 const { connection, network } = require('../connection');
 const fs = require('fs');
 const { decrypt } = require('../encryption')
+const { PrismaClient } = require('../prisma/client');
 
 function getUserKeypair(userId) {
     const wallets = JSON.parse(fs.readFileSync('./wallets.json', 'utf-8'));

@@ -1,3 +1,5 @@
 .env
 /node_modules
 wallets.json
+/generated/prisma
+dev.db

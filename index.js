@@ -1,42 +1,36 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { Connection, Keypair, PublicKey, LAMPORTS_PER_SOL, SystemProgram, Transaction } = require('@solana/web3.js');
+const { PrismaClient } = require('./prisma/client');
+const prisma = new PrismaClient();
 const { encrypt, decrypt } = require('./encryption.js');
 
-const fs = require('fs');
-const path = require('path');
-
-const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
-const WALLET_FILE = path.join(__dirname, 'wallets.json');
+const connection = new Connection(process.env.SOLANA_RPC_URL || 'https://api.devnet.solana.com', 'confirmed');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-function loadWallets() {
-    if (!fs.existsSync(WALLET_FILE)) { 
-        fs.writeFileSync(WALLET_FILE, JSON.stringify({}));
-    }
-    return JSON.parse(fs.readFileSync(WALLET_FILE, 'utf8'));
-}
+async function getOrCreateWallet(userId) {
+    let userRecord = await prisma.user.findUnique({
+        where: { discordId: userId }
+    });
 
-function saveWallet(userId, secretKeyArray) {
-    const wallets = loadWallets();
-
-    const stringifiedArray = JSON.stringify(secretKeyArray);
-    wallets[userId] = encrypt(stringifiedArray);
-    fs.writeFileSync(WALLET_FILE, JSON.stringify(wallets, null, 2));
-}
-
-function getOrCreateWallet(userId) {
-    const wallets = loadWallets();
-
-    if (wallets[userId]) {
-        const decryptedString = decrypt(wallets[userId]);
+    if (userRecord) {
+        const decryptedString = decrypt(userRecord.encryptedWallet);
         const secretKey = Uint8Array.from(JSON.parse(decryptedString));
         return Keypair.fromSecretKey(secretKey);
     } else {
         const newKeypair = Keypair.generate();
         const secretKeyArray = Array.from(newKeypair.secretKey);
-        saveWallet(userId, secretKeyArray);
+
+        const encryptedWalletString = encrypt(JSON.stringify(secretKeyArray));
+
+        await prisma.user.create({
+            data: {
+                discordId: userId,
+                encryptedWallet: encryptedWalletString
+            }
+        });
+
         return newKeypair;
     }
 }
@@ -77,7 +71,7 @@ client.on('interactionCreate', async interaction => {
         return require('./commands/withdraw.js').execute(interaction);
     }
 
-    const userWallet = getOrCreateWallet(user.id);
+    const userWallet = await getOrCreateWallet(user.id);
 
     if(commandName === 'wallet') {
         await interaction.reply({
@@ -109,7 +103,7 @@ client.on('interactionCreate', async interaction => {
         }
 
         try {
-            const recipientWallet = getOrCreateWallet(recipientUser.id);
+            const recipientWallet = await getOrCreateWallet(recipientUser.id);
             const lamportsToSend = amountSol * LAMPORTS_PER_SOL;
 
             const currentBalance = await connection.getBalance(userWallet.publicKey);
